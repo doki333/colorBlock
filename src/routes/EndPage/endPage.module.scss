@@ -1,0 +1,29 @@
+@use '/src/styles/constants/colors';
+
+.endPageWrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(colors.$BLACK, 0.5);
+  backdrop-filter: blur(18px);
+
+  p {
+    font-size: 32px;
+    font-weight: 700;
+    color: colors.$WHITE;
+  }
+
+  .tryBtn {
+    padding: 10px;
+    margin-top: 30px;
+    font-size: 20px;
+    color: colors.$WHITE;
+    text-transform: uppercase;
+    background: colors.$GREEN;
+    border-radius: 6px;
+  }
+}

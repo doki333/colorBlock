@@ -1,12 +1,14 @@
+import { SetStateAction, Dispatch } from 'react'
 import { IData } from 'types/data'
+import getScore from './getScore'
 
-export function colorTable(
+export const colorTable = (
   data: IData[],
   isVertical: string,
   current: number[],
   rowIndex: number,
   cellIndex: number
-): IData[] | null {
+): IData[] | null => {
   const newArr3 = [...data]
   const colorChip = [...current]
   let counter = 0
@@ -44,4 +46,41 @@ export function colorTable(
 
   newArr3[rowIndex] = defaultRow
   return newArr3
+}
+
+export const getRidOfColor = (
+  newArray: IData[],
+  setData: Dispatch<SetStateAction<IData[]>>,
+  setTotal: Dispatch<SetStateAction<number>>
+): IData[] => {
+  const newArr4 = [...newArray]
+
+  let horizonScore = 0
+  let verticalScore = 0
+
+  const scoreAndArrs = getScore(newArr4)
+  if (scoreAndArrs === null) return newArr4
+
+  scoreAndArrs.vertical.forEach((e) => {
+    verticalScore += e.dataIndexs.length
+    e.dataIndexs.forEach((idx) => {
+      const newRows = { ...newArr4[idx] }
+      newRows[e.standardIndex] = null
+      newArr4[idx] = newRows
+    })
+  })
+
+  scoreAndArrs.horizon.forEach((e) => {
+    horizonScore += e.dataIndexs.length
+    e.dataIndexs.forEach((idx) => {
+      const newRows = { ...newArr4[e.standardIndex] }
+      newRows[idx] = null
+      newArr4[e.standardIndex] = newRows
+    })
+  })
+
+  setData(newArr4)
+
+  setTotal((prev) => prev + horizonScore + verticalScore)
+  return newArr4
 }

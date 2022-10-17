@@ -1,4 +1,4 @@
-export const getNumArr = () => {
+const getNumArr = () => {
   const sameNum2 = (n: number, array: number[] | []) => {
     return array.findIndex((e) => e === n)
   }
@@ -16,3 +16,5 @@ export const getNumArr = () => {
   }
   return emptyArr
 }
+
+export default getNumArr

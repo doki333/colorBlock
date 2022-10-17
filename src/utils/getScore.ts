@@ -1,6 +1,6 @@
 import { IConseObj, IData } from 'types/data'
 
-export const getScore = (newArr3: IData[]) => {
+const getScore = (newArr3: IData[]) => {
   const prevArr = [...newArr3]
   const prevArr2 = [...newArr3]
   const lines3 = [
@@ -41,3 +41,5 @@ export const getScore = (newArr3: IData[]) => {
   if (consequnceObj.horizon.length === 0 && consequnceObj.vertical.length === 0) return null
   return consequnceObj
 }
+
+export default getScore
