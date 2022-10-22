@@ -9,12 +9,12 @@ export const colorTable = (
   rowIndex: number,
   cellIndex: number
 ): IData[] | null => {
-  const newArr3 = [...data]
   const colorChip = [...current]
   let counter = 0
 
   if (isVertical === 'vertical') {
-    const defaultCells = [{ ...newArr3[rowIndex - 1] }, { ...newArr3[rowIndex] }, { ...newArr3[rowIndex + 1] }]
+    //  블록이 세로일 때
+    const defaultCells = [{ ...data[rowIndex - 1] }, { ...data[rowIndex] }, { ...data[rowIndex + 1] }]
 
     if (
       defaultCells[0][cellIndex] !== null ||
@@ -24,17 +24,15 @@ export const colorTable = (
       return null
 
     for (let i = rowIndex - 1; i <= rowIndex + 1; i += 1) {
-      const currentCell = defaultCells[counter]
-
-      currentCell[cellIndex] = colorChip[counter]
+      defaultCells[counter][cellIndex] = colorChip[counter]
       counter += 1
     }
 
-    newArr3.splice(rowIndex - 1, 3, ...defaultCells)
-    return newArr3
+    data.splice(rowIndex - 1, 3, ...defaultCells)
+    return data
   }
 
-  const defaultRow = { ...newArr3[rowIndex] }
+  const defaultRow = { ...data[rowIndex] } // 블록이 가로일 때
 
   if (defaultRow[cellIndex - 1] !== null || defaultRow[cellIndex] !== null || defaultRow[cellIndex + 1] !== null)
     return null
@@ -44,43 +42,34 @@ export const colorTable = (
     counter += 1
   }
 
-  newArr3[rowIndex] = defaultRow
-  return newArr3
+  data[rowIndex] = defaultRow
+  return data
 }
 
-export const getRidOfColor = (
-  newArray: IData[],
-  setData: Dispatch<SetStateAction<IData[]>>,
-  setTotal: Dispatch<SetStateAction<number>>
-): IData[] => {
-  const newArr4 = [...newArray]
-
+export const getRidOfColor = (newArray: IData[], setTotal: Dispatch<SetStateAction<number>>): IData[] => {
   let horizonScore = 0
   let verticalScore = 0
 
-  const scoreAndArrs = getScore(newArr4)
-  if (scoreAndArrs === null) return newArr4
+  const scoreAndArrs = getScore(newArray)
+  if (scoreAndArrs === null) return newArray
 
   scoreAndArrs.vertical.forEach((e) => {
     verticalScore += e.dataIndexs.length
     e.dataIndexs.forEach((idx) => {
-      const newRows = { ...newArr4[idx] }
+      const newRows = { ...newArray[idx] }
       newRows[e.standardIndex] = null
-      newArr4[idx] = newRows
+      newArray[idx] = newRows
     })
   })
 
   scoreAndArrs.horizon.forEach((e) => {
     horizonScore += e.dataIndexs.length
     e.dataIndexs.forEach((idx) => {
-      const newRows = { ...newArr4[e.standardIndex] }
+      const newRows = { ...newArray[e.standardIndex] }
       newRows[idx] = null
-      newArr4[e.standardIndex] = newRows
+      newArray[e.standardIndex] = newRows
     })
   })
-
-  setData(newArr4)
-
   setTotal((prev) => prev + horizonScore + verticalScore)
-  return newArr4
+  return newArray
 }

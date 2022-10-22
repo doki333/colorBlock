@@ -1,10 +1,10 @@
 import { DragEvent } from 'react'
-
 import { createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 
-import styles from './dataTable.module.scss'
-import { cx } from 'styles'
 import { IData } from 'types/data'
+
+import { cx } from 'styles'
+import styles from './dataTable.module.scss'
 
 interface IDataTable {
   handleDrop: (e: DragEvent<HTMLTableCellElement>) => void

@@ -1,12 +1,11 @@
 @use '/src/styles/constants/colors';
+@use '/src/styles/mixins/responsive' as responsive;
 
 .tableWrapper {
   width: 100%;
+  min-width: 320px;
   height: 100%;
-  min-width: 360px;
-  min-height: 360px;
 
-  max-width: 1000px;
   table {
     margin: 0 auto;
     border: 1px solid lightgray;
@@ -54,6 +53,11 @@
 
           &.color8 {
             background: colors.$PINK;
+          }
+
+          @include responsive.after(SD) {
+            width: 60px;
+            height: 60px;
           }
         }
       }

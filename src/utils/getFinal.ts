@@ -1,4 +1,3 @@
-import React from 'react'
 import { IData } from 'types/data'
 
 const getFinal = (data: IData[], isColumn: boolean) => {

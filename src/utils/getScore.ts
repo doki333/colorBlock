@@ -1,8 +1,6 @@
 import { IConseObj, IData } from 'types/data'
 
 const getScore = (newArr3: IData[]) => {
-  const prevArr = [...newArr3]
-  const prevArr2 = [...newArr3]
   const lines3 = [
     [0, 1, 2],
     [1, 2, 3],
@@ -17,7 +15,7 @@ const getScore = (newArr3: IData[]) => {
   for (let i = 0; i < 9; i += 1) {
     // 가로
     lines3.forEach((e) => {
-      const scoreRows = e.map((num) => prevArr[i][num])
+      const scoreRows = e.map((num) => newArr3[i][num])
       const isScored = scoreRows.every((val) => val !== null && val === scoreRows[0])
       if (isScored) {
         const newObj = { standardIndex: i, dataIndexs: e }
@@ -29,7 +27,7 @@ const getScore = (newArr3: IData[]) => {
   for (let i = 0; i < 9; i += 1) {
     // 세로
     lines3.forEach((e) => {
-      const scoreRows = e.map((num) => prevArr2[num][i])
+      const scoreRows = e.map((num) => newArr3[num][i])
       const isScored = scoreRows.every((val) => val !== null && val === scoreRows[0])
       if (isScored) {
         const newObj = { standardIndex: i, dataIndexs: e }

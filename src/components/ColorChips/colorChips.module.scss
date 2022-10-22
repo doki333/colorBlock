@@ -1,9 +1,11 @@
 @use '/src/styles/constants/colors';
+@use '/src/styles/mixins/responsive' as responsive;
 
 .chipWrapper {
   display: flex;
   width: 120px;
   height: 40px;
+  margin-top: 10px;
 
   &.isVertical {
     display: flex;
@@ -40,6 +42,53 @@
 
     &.color5 {
       background: colors.$BLUE;
+    }
+  }
+}
+
+@include responsive.after(SD) {
+  .chipWrapper {
+    display: flex;
+    width: 180px;
+    height: 60px;
+    margin-top: 10px;
+
+    &.isVertical {
+      display: flex;
+      flex-direction: column;
+      width: 60px;
+      height: 180px;
+    }
+
+    .eachBlock {
+      display: block;
+      width: 100%;
+      height: 60px;
+      border: 1px solid black;
+
+      &.color0 {
+        background: colors.$RED;
+      }
+
+      &.color1 {
+        background: colors.$ORANGE;
+      }
+
+      &.color2 {
+        background: colors.$YELLOW;
+      }
+
+      &.color3 {
+        background: colors.$GREEN;
+      }
+
+      &.color4 {
+        background: colors.$TEAL;
+      }
+
+      &.color5 {
+        background: colors.$BLUE;
+      }
     }
   }
 }
