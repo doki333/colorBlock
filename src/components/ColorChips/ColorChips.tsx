@@ -9,7 +9,7 @@ interface IColorChips {
 }
 
 const ColorChips = ({ rgbs, index, handleDragStart }: IColorChips) => {
-  const randomVertical = rgbs[0] > 2
+  const randomVertical = rgbs[index] > 2
 
   return (
     <div
