@@ -5,6 +5,7 @@
   display: flex;
   width: 120px;
   height: 40px;
+  margin: 0 5px;
   margin-top: 10px;
 
   &.isVertical {
@@ -37,11 +38,11 @@
     }
 
     &.color4 {
-      background: colors.$TEAL;
+      background: colors.$BLUE;
     }
 
     &.color5 {
-      background: colors.$BLUE;
+      background: colors.$TEAL;
     }
   }
 }
@@ -83,10 +84,6 @@
       }
 
       &.color4 {
-        background: colors.$TEAL;
-      }
-
-      &.color5 {
         background: colors.$BLUE;
       }
     }

@@ -6,7 +6,6 @@ interface IEndPage {
 }
 
 const EndPage = ({ handleBtn, score }: IEndPage) => {
-  console.log(score)
   return (
     <div className={styles.endPageWrapper}>
       <p>Good Job!</p>

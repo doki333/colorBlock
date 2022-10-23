@@ -1,6 +1,6 @@
 import { IData } from 'types/data'
 
-const getFinal = (data: IData[], isColumn: boolean) => {
+const getFinal = (data: IData[], afterColors: number[][]) => {
   const newArr4 = [...data]
   const lines3 = [
     [0, 1, 2],
@@ -11,16 +11,43 @@ const getFinal = (data: IData[], isColumn: boolean) => {
     [5, 6, 7],
     [6, 7, 8],
   ]
-  let count = 0
 
-  newArr4.forEach((item, index) => {
-    return lines3.forEach((line) => {
-      const cellArr = isColumn ? line.map((cell) => newArr4[cell][index]) : line.map((cell) => item[cell])
+  let isRowPlayable = false
+  let isColumnPlayable = false
+
+  for (let i = 0; i < 9; i += 1) {
+    // 가로
+    for (let j = 0; j < 7; j += 1) {
+      const cellArr = lines3[j].map((cell) => newArr4[i][cell])
       const isAvailable = cellArr.every((value: number | null) => value === null)
-      if (isAvailable) count += 1
-    })
-  })
-  return count > 0
+      if (isAvailable) {
+        isRowPlayable = true
+        break
+      }
+    }
+  }
+
+  for (let i = 0; i < 9; i += 1) {
+    // 세로
+    for (let j = 0; j < 7; j += 1) {
+      const cellArr = lines3[j].map((cell) => newArr4[cell][i])
+      const isAvailable = cellArr.every((value: number | null) => value === null)
+      if (isAvailable) {
+        isColumnPlayable = true
+        break
+      }
+    }
+  }
+
+  const isColumn = afterColors.every((c) => c[0] > 2)
+  const isRow = afterColors.every((r) => r[0] <= 2)
+
+  if (!isColumn && !isRow) {
+    // 섞여있는 경우
+    return (isRowPlayable || isColumnPlayable) === true
+  }
+
+  return isColumn ? isColumnPlayable : isRowPlayable
 }
 
 export default getFinal

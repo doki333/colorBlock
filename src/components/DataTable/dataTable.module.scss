@@ -3,7 +3,7 @@
 
 .tableWrapper {
   width: 100%;
-  min-width: 320px;
+  // min-width: 320px;
   height: 100%;
 
   table {
@@ -36,23 +36,11 @@
           }
 
           &.color4 {
-            background: colors.$TEAL;
-          }
-
-          &.color5 {
             background: colors.$BLUE;
           }
 
-          &.color6 {
-            background: colors.$INDIGO;
-          }
-
-          &.color7 {
-            background: colors.$PURPLE;
-          }
-
-          &.color8 {
-            background: colors.$PINK;
+          &.color5 {
+            background: colors.$TEAL;
           }
 
           @include responsive.after(SD) {

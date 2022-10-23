@@ -1,4 +1,4 @@
-import { useState, DragEvent, useEffect, useCallback } from 'react'
+import { useState, DragEvent, useEffect, useCallback, useRef } from 'react'
 
 import EndPage from './EndPage/EndPage'
 import DataTable from 'components/DataTable/DataTable'
@@ -16,22 +16,26 @@ import styles from './app.module.scss'
 const App = () => {
   const [data, setData] = useState([...newArr])
   const [total, setTotal] = useState(0)
-  const [current, setCurrent] = useState<[] | number[]>([])
-  const [next, setNext] = useState<[] | number[]>([])
+  const [nextColors, setNextColors] = useState<[] | number[][]>([])
   const [play, setPlay] = useState(true)
 
-  const getRandomNum = useCallback(() => {
+  const colorIdx = useRef(0)
+
+  const getNextColor = useCallback(() => {
     // 다음 등록
     const newNext = getNumArr()
+    const newColors = [...nextColors]
 
-    setCurrent(next)
-    setNext(newNext)
-  }, [next])
+    newColors.splice(colorIdx.current, 1, newNext)
+    setNextColors(newColors)
+    return newColors
+  }, [nextColors])
 
   const handleDrop = useCallback(
     (e: DragEvent<HTMLTableCellElement>) => {
       const { rowindex, cellindex } = e.currentTarget.dataset
       const isVertical = e.dataTransfer.getData('text/plain')
+      const currentIdx = colorIdx.current
 
       if (rowindex && cellindex) {
         const newRowIndex = Number(rowindex)
@@ -44,20 +48,19 @@ const App = () => {
         if (isVertical === 'horizon' && isHorizonNotAvailable) return
 
         const newArr3 = [...data]
-        const transferredValue = colorTable(newArr3, isVertical, current, newRowIndex, newCellIndex)
+        const transferredValue = colorTable(newArr3, isVertical, nextColors[currentIdx], newRowIndex, newCellIndex)
 
         if (transferredValue === null) return
 
         const finalArr = getRidOfColor(transferredValue, setTotal)
+        const afterColors = getNextColor()
+        const isItEnded = getFinal(finalArr, afterColors)
 
-        const isNext = next[0] > 3
-        const isItEnded = getFinal(finalArr, isNext)
         setData(finalArr)
         setPlay(isItEnded)
-        getRandomNum()
       }
     },
-    [current, data, getRandomNum, next]
+    [data, getNextColor, nextColors]
   )
 
   const handleClickBtn = () => {
@@ -66,11 +69,19 @@ const App = () => {
     setTotal(0)
   }
 
+  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
+    const { alignment, index } = e.currentTarget.dataset
+    if (alignment) {
+      e.dataTransfer.setData('text/plain', alignment)
+      colorIdx.current = Number(index)
+    }
+  }
+
   useEffect(() => {
     const firstColor = getNumArr()
     const secondColor = getNumArr()
-    setCurrent(firstColor)
-    setNext(secondColor)
+    const thirdColor = getNumArr()
+    setNextColors([firstColor, secondColor, thirdColor])
   }, [])
 
   return (
@@ -78,16 +89,14 @@ const App = () => {
       <h1>Color Blocks</h1>
       <ScoreBoard total={total} />
       <DataTable handleDrop={handleDrop} tableData={data} />
-      <div className={styles.blocksWrapper}>
-        <div>
-          Current
-          <ColorChips rgbs={current} draggable />
+      {nextColors.length !== 0 && (
+        <div className={styles.blocksWrapper}>
+          {nextColors.map((b, index) => {
+            const colorKey = `colorB-${index}`
+            return <ColorChips key={colorKey} rgbs={b} index={index} handleDragStart={handleDragStart} />
+          })}
         </div>
-        <div>
-          Next
-          <ColorChips rgbs={next} draggable={false} />
-        </div>
-      </div>
+      )}
       {!play && <EndPage handleBtn={handleClickBtn} score={total} />}
     </div>
   )

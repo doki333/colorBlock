@@ -4,24 +4,20 @@ import styles from './colorChips.module.scss'
 
 interface IColorChips {
   rgbs: number[]
-  draggable: boolean
+  index: number
+  handleDragStart: (e: DragEvent<HTMLDivElement>) => void
 }
 
-const ColorChips = ({ rgbs, draggable }: IColorChips) => {
-  const randomVertical = rgbs[0] > 3
+const ColorChips = ({ rgbs, index, handleDragStart }: IColorChips) => {
+  const randomVertical = rgbs[0] > 2
 
-  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
-    const { alignment } = e.currentTarget.dataset
-    if (alignment) {
-      e.dataTransfer.setData('text/plain', alignment)
-    }
-  }
   return (
     <div
       className={cx(styles.chipWrapper, { [styles.isVertical]: randomVertical })}
       onDragStart={handleDragStart}
-      draggable={draggable}
+      draggable
       data-alignment={randomVertical ? 'vertical' : 'horizon'}
+      data-index={index}
     >
       {rgbs.map((color) => {
         const colorClass = `color${color}`
