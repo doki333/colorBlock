@@ -1,6 +1,5 @@
 {
   "name": "colorblock",
-  "homepage": "https://doki333.github.io/colorBlock",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
