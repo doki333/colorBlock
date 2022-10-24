@@ -1,43 +1,16 @@
-import { IConseObj, IData } from 'types/data'
+import { IData } from 'types/data'
+import getConsequence from './getConsequence'
 
-const getScore = (newArr3: IData[]) => {
-  const lines3 = [
-    [0, 1, 2],
-    [1, 2, 3],
-    [2, 3, 4],
-    [3, 4, 5],
-    [4, 5, 6],
-    [5, 6, 7],
-    [6, 7, 8],
-  ]
-  const consequnceObj: IConseObj = { horizon: [], vertical: [] }
+const getScore2 = (list: IData[]): number => {
+  let first = 0
+  const lists = getConsequence(list)
 
-  for (let i = 0; i < 9; i += 1) {
-    // 가로
-    lines3.forEach((e) => {
-      const scoreRows = e.map((num) => newArr3[i][num])
-      const isScored = scoreRows.every((val) => val !== null && val === scoreRows[0])
-      if (isScored) {
-        const newObj = { standardIndex: i, dataIndexs: e }
-        consequnceObj.horizon.push(newObj)
-      }
-    })
-  }
-
-  for (let i = 0; i < 9; i += 1) {
-    // 세로
-    lines3.forEach((e) => {
-      const scoreRows = e.map((num) => newArr3[num][i])
-      const isScored = scoreRows.every((val) => val !== null && val === scoreRows[0])
-      if (isScored) {
-        const newObj = { standardIndex: i, dataIndexs: e }
-        consequnceObj.vertical.push(newObj)
-      }
-    })
-  }
-
-  if (consequnceObj.horizon.length === 0 && consequnceObj.vertical.length === 0) return null
-  return consequnceObj
+  if (lists === null) return 0
+  Object.keys(lists).forEach((word: string) => {
+    if (!lists[word][0]) return
+    first += lists[word][0].dataIndexs.length
+  })
+  return first
 }
 
-export default getScore
+export default getScore2

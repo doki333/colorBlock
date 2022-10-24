@@ -17,4 +17,5 @@ export interface INewObj {
 export interface IConseObj {
   horizon: INewObj[]
   vertical: INewObj[]
+  [key: string]: INewObj[]
 }

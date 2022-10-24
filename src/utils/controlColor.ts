@@ -1,6 +1,5 @@
-import { SetStateAction, Dispatch } from 'react'
 import { IData } from 'types/data'
-import getScore from './getScore'
+import getConsequence from './getConsequence'
 
 export const colorTable = (
   data: IData[],
@@ -46,15 +45,11 @@ export const colorTable = (
   return data
 }
 
-export const getRidOfColor = (newArray: IData[], setTotal: Dispatch<SetStateAction<number>>): IData[] => {
-  let horizonScore = 0
-  let verticalScore = 0
-
-  const scoreAndArrs = getScore(newArray)
+export const getRidOfColor = (newArray: IData[]): IData[] => {
+  const scoreAndArrs = getConsequence(newArray)
   if (scoreAndArrs === null) return newArray
 
   scoreAndArrs.vertical.forEach((e) => {
-    verticalScore += e.dataIndexs.length
     e.dataIndexs.forEach((idx) => {
       const newRows = { ...newArray[idx] }
       newRows[e.standardIndex] = null
@@ -63,13 +58,11 @@ export const getRidOfColor = (newArray: IData[], setTotal: Dispatch<SetStateActi
   })
 
   scoreAndArrs.horizon.forEach((e) => {
-    horizonScore += e.dataIndexs.length
     e.dataIndexs.forEach((idx) => {
       const newRows = { ...newArray[e.standardIndex] }
       newRows[idx] = null
       newArray[e.standardIndex] = newRows
     })
   })
-  setTotal((prev) => prev + horizonScore + verticalScore)
   return newArray
 }

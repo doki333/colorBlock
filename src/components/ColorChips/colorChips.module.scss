@@ -2,6 +2,7 @@
 @use '/src/styles/mixins/responsive' as responsive;
 
 .chipWrapper {
+  position: relative;
   display: flex;
   width: 120px;
   height: 40px;

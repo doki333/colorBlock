@@ -1,32 +1,34 @@
 import { DragEvent } from 'react'
 import { createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { useSelector } from 'react-redux/es/exports'
 
+import { RootState } from 'store/store'
 import { IData } from 'types/data'
 
-import { cx } from 'styles'
 import styles from './dataTable.module.scss'
+import { cx } from 'styles'
 
 interface IDataTable {
   handleDrop: (e: DragEvent<HTMLTableCellElement>) => void
-  tableData: IData[]
 }
 
 const columnHelper = createColumnHelper<IData>()
 
-const DataTable = ({ handleDrop, tableData }: IDataTable) => {
-  const columns = tableData.map((arr, newIdx) => {
+const DataTable = ({ handleDrop }: IDataTable) => {
+  const tableState = useSelector((state: RootState) => state.table)
+  const columns = tableState.data.map((arr, newIdx) => {
     return columnHelper.accessor((row) => `${row[newIdx]}`, { id: String(newIdx) })
   })
 
   const table = useReactTable({
-    data: tableData,
+    data: tableState.data,
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
 
   const getRow = table.getRowModel().rows
 
-  const handleDragOver = (e: React.DragEvent<HTMLTableElement>) => {
+  const handleDragOver = (e: DragEvent<HTMLTableElement>) => {
     e.preventDefault()
   }
 
