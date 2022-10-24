@@ -39,8 +39,8 @@ const getFinal = (data: IData[], afterColors: number[][]) => {
     }
   }
 
-  const isColumn = afterColors.every((c) => c[0] > 2)
-  const isRow = afterColors.every((r) => r[0] <= 2)
+  const isColumn = afterColors.every((c, index) => c[index] > 2)
+  const isRow = afterColors.every((r, index) => r[index] <= 2)
 
   if (!isColumn && !isRow) {
     // 섞여있는 경우
