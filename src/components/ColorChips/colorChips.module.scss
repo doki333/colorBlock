@@ -20,30 +20,36 @@
     display: block;
     width: 100%;
     height: 40px;
-    border: 1px solid black;
+    border-radius: 4px;
 
     &.color0 {
-      background: colors.$RED;
+      background: colors.$RED_BORDER;
+      box-shadow: inset 0 0 0 3px colors.$RED_BORDER, inset 0 0 0 8px colors.$RED;
     }
 
     &.color1 {
-      background: colors.$ORANGE;
+      background: colors.$ORANGE_BORDER;
+      box-shadow: inset 0 0 0 3px colors.$ORANGE_BORDER, inset 0 0 0 8px colors.$ORANGE;
     }
 
     &.color2 {
-      background: colors.$YELLOW;
+      background: colors.$YELLOW_BORDER;
+      box-shadow: inset 0 0 0 3px colors.$YELLOW_BORDER, inset 0 0 0 8px colors.$YELLOW;
     }
 
     &.color3 {
-      background: colors.$GREEN;
+      background: colors.$GREEN_BORDER;
+      box-shadow: inset 0 0 0 3px colors.$GREEN_BORDER, inset 0 0 0 8px colors.$GREEN;
     }
 
     &.color4 {
-      background: colors.$BLUE;
+      background: colors.$BLUE_BORDER;
+      box-shadow: inset 0 0 0 3px colors.$BLUE_BORDER, inset 0 0 0 8px colors.$BLUE;
     }
 
     &.color5 {
-      background: colors.$TEAL;
+      background: colors.$TEAL_BORDER;
+      box-shadow: inset 0 0 0 3px colors.$TEAL_BORDER, inset 0 0 0 8px colors.$TEAL;
     }
   }
 }

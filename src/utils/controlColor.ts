@@ -1,5 +1,5 @@
 import { IData } from 'types/data'
-import getConsequence from './getConsequence'
+import { getConsequence } from './controlScore'
 
 export const colorTable = (
   data: IData[],

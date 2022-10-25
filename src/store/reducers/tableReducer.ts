@@ -8,6 +8,7 @@ const initialState = {
   isPlaying: true,
   score: 0,
   currentIdx: 0,
+  alignment: 'horizon',
 }
 
 export const tableSlice = createSlice({
@@ -29,9 +30,12 @@ export const tableSlice = createSlice({
     setIdx: (state, action: PayloadAction<number>) => {
       state.currentIdx = action.payload
     },
+    setAlignment: (state, action: PayloadAction<string>) => {
+      state.alignment = action.payload
+    },
   },
 })
 
-export const { setData, resetData, setPlay, setScore, setIdx } = tableSlice.actions
+export const { setData, resetData, setPlay, setScore, setIdx, setAlignment } = tableSlice.actions
 
 export default tableSlice.reducer

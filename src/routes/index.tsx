@@ -2,7 +2,7 @@ import { useState, DragEvent, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux/es/exports'
 
 import { RootState } from 'store/store'
-import { setData, setIdx, setPlay, setScore } from 'store/reducers/tableReducer'
+import { setAlignment, setData, setIdx, setPlay, setScore } from 'store/reducers/tableReducer'
 
 import EndPage from './EndPage/EndPage'
 import DataTable from 'components/DataTable/DataTable'
@@ -10,7 +10,7 @@ import ColorChips from 'components/ColorChips/ColorChips'
 
 import getNumArr from 'utils/getRandomNumArr'
 import { colorTable, getRidOfColor } from 'utils/controlColor'
-import getScore2 from 'utils/getScore'
+import { getScore } from 'utils/controlScore'
 import getFinal from 'utils/getFinal'
 
 import styles from './app.module.scss'
@@ -51,7 +51,7 @@ const App = () => {
 
       if (transferredValue === null) return
 
-      const blockScore = getScore2(transferredValue) // 점수
+      const blockScore = getScore(transferredValue) // 점수
       const finalArr = getRidOfColor(transferredValue) // 색 제거
       const afterColors = getNextColor(currentLocation) // 다음 색
       const isItEnded = getFinal(finalArr, afterColors) // 게임오버인지 아닌지
@@ -66,20 +66,20 @@ const App = () => {
   const handleDrop = useCallback(
     (e: DragEvent<HTMLTableCellElement>) => {
       const { rowindex, cellindex } = e.currentTarget.dataset
-      const isVertical = e.dataTransfer.getData('text/plain')
+      const isVertical = gameData.alignment
 
       if (rowindex && cellindex) {
         handleTable(rowindex, cellindex, isVertical, gameData.currentIdx)
       }
     },
-    [gameData.currentIdx, handleTable]
+    [gameData.alignment, gameData.currentIdx, handleTable]
   )
 
   const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
     const { alignment, index } = e.currentTarget.dataset
     if (alignment) {
-      e.dataTransfer.setData('text/plain', alignment)
       dispatch(setIdx(Number(index)))
+      dispatch(setAlignment(alignment))
     }
   }
 
