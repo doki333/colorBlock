@@ -57,6 +57,7 @@
           @include responsive.after(SD) {
             width: 60px;
             height: 60px;
+            border-radius: 6px;
           }
         }
       }
