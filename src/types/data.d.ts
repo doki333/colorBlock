@@ -11,7 +11,7 @@ export interface IData {
 
 export interface INewObj {
   standardIndex: number
-  dataIndexs: number[]
+  dataIndexs: number[][]
 }
 
 export interface IConseObj {

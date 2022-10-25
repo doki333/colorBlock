@@ -1,13 +1,14 @@
 @use '/src/styles/constants/colors';
 
 .endPageWrapper {
-  position: absolute;
+  position: fixed;
+  top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background: rgba(colors.$BLACK, 0.5);
   backdrop-filter: blur(18px);
 

@@ -50,19 +50,23 @@ export const getRidOfColor = (newArray: IData[]): IData[] => {
   if (scoreAndArrs === null) return newArray
 
   scoreAndArrs.vertical.forEach((e) => {
-    e.dataIndexs.forEach((idx) => {
-      const newRows = { ...newArray[idx] }
-      newRows[e.standardIndex] = null
-      newArray[idx] = newRows
-    })
+    for (let i = 0; i < e.dataIndexs.length; i += 1) {
+      e.dataIndexs[i].forEach((num) => {
+        const newRows = { ...newArray[num] }
+        newRows[e.standardIndex] = null
+        newArray[num] = newRows
+      })
+    }
   })
 
   scoreAndArrs.horizon.forEach((e) => {
-    e.dataIndexs.forEach((idx) => {
+    for (let i = 0; i < e.dataIndexs.length; i += 1) {
       const newRows = { ...newArray[e.standardIndex] }
-      newRows[idx] = null
+      e.dataIndexs[i].forEach((num) => {
+        newRows[num] = null
+      })
       newArray[e.standardIndex] = newRows
-    })
+    }
   })
   return newArray
 }

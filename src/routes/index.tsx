@@ -14,6 +14,7 @@ import getScore2 from 'utils/getScore'
 import getFinal from 'utils/getFinal'
 
 import styles from './app.module.scss'
+import Portal from 'components/Portal/portal'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -110,7 +111,11 @@ const App = () => {
           })}
         </div>
       )}
-      {!gameData.isPlaying && <EndPage />}
+      {!gameData.isPlaying && (
+        <Portal>
+          <EndPage />
+        </Portal>
+      )}
     </div>
   )
 }
