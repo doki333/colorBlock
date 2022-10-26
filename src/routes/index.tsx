@@ -1,12 +1,16 @@
-import { useState, DragEvent, useEffect, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux/es/exports'
+import { DragEvent, useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from 'store/store'
-import { setAlignment, setData, setIdx, setPlay, setScore } from 'store/reducers/tableReducer'
+import { setData, setPlay, setScore } from 'store/reducers/tableReducer'
 
-import EndPage from './EndPage/EndPage'
+import EndPage from 'routes/EndPage/EndPage'
+import ItemPage from 'routes/ItemPage/ItemPage'
+
 import DataTable from 'components/DataTable/DataTable'
 import ColorChips from 'components/ColorChips/ColorChips'
+import Portal from 'components/Portal/portal'
+import ItemTabs from 'components/ItemTabs/ItemTabs'
 
 import getNumArr from 'utils/getRandomNumArr'
 import { colorTable, getRidOfColor } from 'utils/controlColor'
@@ -14,26 +18,25 @@ import { getScore } from 'utils/controlScore'
 import getFinal from 'utils/getFinal'
 
 import styles from './app.module.scss'
-import Portal from 'components/Portal/portal'
-import ItemTabs from 'components/ItemTabs/ItemTabs'
+import { setNewColors } from 'store/reducers/colorReducer'
 
 const App = () => {
   const dispatch = useDispatch()
 
   const gameData = useSelector((state: RootState) => state.table)
-  const [nextColors, setNextColors] = useState<[] | number[][]>([])
+  const colorData = useSelector((state: RootState) => state.color.nextColors)
 
   const getNextColor = useCallback(
     (num: number) => {
       // 다음 등록
       const newNext = getNumArr()
-      const newColors = [...nextColors]
+      const newColors = [...colorData]
 
       newColors.splice(num, 1, newNext)
-      setNextColors(newColors)
+      dispatch(setNewColors(newColors))
       return newColors
     },
-    [nextColors]
+    [colorData, dispatch]
   )
 
   const handleTable = useCallback(
@@ -48,7 +51,7 @@ const App = () => {
       if (isVertical === 'horizon' && isHorizonNotAvailable) return
 
       const newArr3 = [...gameData.data]
-      const transferredValue = colorTable(newArr3, isVertical, nextColors[currentLocation], newRowIndex, newCellIndex)
+      const transferredValue = colorTable(newArr3, isVertical, colorData[currentLocation], newRowIndex, newCellIndex)
 
       if (transferredValue === null) return
 
@@ -60,8 +63,12 @@ const App = () => {
       dispatch(setData(finalArr))
       dispatch(setPlay(isItEnded))
       dispatch(setScore(blockScore))
+
+      // if(blockScore !== 0 && blockScore % 50 === 0) {
+      //   dispatch(setI)
+      // }
     },
-    [dispatch, getNextColor, nextColors, gameData.data]
+    [gameData.data, colorData, getNextColor, dispatch]
   )
 
   const handleDrop = useCallback(
@@ -76,46 +83,28 @@ const App = () => {
     [gameData.alignment, gameData.currentIdx, handleTable]
   )
 
-  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
-    const { alignment, index } = e.currentTarget.dataset
-    if (alignment) {
-      dispatch(setIdx(Number(index)))
-      dispatch(setAlignment(alignment))
-    }
-  }
-
-  useEffect(() => {
-    const firstColor = getNumArr()
-    const secondColor = getNumArr()
-    const thirdColor = getNumArr()
-    setNextColors([firstColor, secondColor, thirdColor])
-  }, [])
-
   return (
     <div className={styles.appWrapper}>
       <h1>Color Blocks</h1>
       <p className={styles.scoreNum}>점수 : {gameData.score}</p>
-      <ItemTabs />
-      <DataTable handleDrop={handleDrop} />
-      {nextColors.length !== 0 && (
+      <ItemTabs counts={gameData.itemCounts} />
+      <DataTable handleDrop={handleDrop} isClickable={gameData.isAboutToUseItems} />
+      {colorData.length !== 0 && (
         <div className={styles.blocksWrapper}>
-          {nextColors.map((b, index) => {
+          {colorData.map((b, index) => {
             const colorKey = `colorB-${index}`
-            return (
-              <ColorChips
-                key={colorKey}
-                rgbs={b}
-                order={index}
-                handleDragStart={handleDragStart}
-                handleTable={handleTable}
-              />
-            )
+            return <ColorChips key={colorKey} rgbs={b} order={index} handleTable={handleTable} />
           })}
         </div>
       )}
       {!gameData.isPlaying && (
         <Portal>
           <EndPage />
+        </Portal>
+      )}
+      {gameData.isAboutToUseItems && (
+        <Portal>
+          <ItemPage />
         </Portal>
       )}
     </div>

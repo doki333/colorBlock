@@ -1,14 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { newArr } from 'data/dummy'
-import { IData } from 'types/data'
+import { IData, IInitialState } from 'types/data'
 
-const initialState = {
+const initialState: IInitialState = {
   data: newArr,
   isPlaying: true,
   score: 0,
   currentIdx: 0,
   alignment: 'horizon',
+  isAboutToUseItems: false,
+  itemKeyword: 'removeOne',
+  itemCounts: {
+    removeOne: 2,
+    refreshBlocks: 1,
+    resetTable: 1,
+  },
 }
 
 export const tableSlice = createSlice({
@@ -33,9 +40,28 @@ export const tableSlice = createSlice({
     setAlignment: (state, action: PayloadAction<string>) => {
       state.alignment = action.payload
     },
+    setUseItems: (state) => {
+      state.isAboutToUseItems = !state.isAboutToUseItems
+    },
+    setItemKeyword: (state, action: PayloadAction<string>) => {
+      state.itemKeyword = action.payload
+    },
+    setCountMinus: (state, action: PayloadAction<string>) => {
+      state.itemCounts[action.payload] -= 1
+    },
   },
 })
 
-export const { setData, resetData, setPlay, setScore, setIdx, setAlignment } = tableSlice.actions
+export const {
+  setData,
+  resetData,
+  setPlay,
+  setScore,
+  setIdx,
+  setAlignment,
+  setUseItems,
+  setItemKeyword,
+  setCountMinus,
+} = tableSlice.actions
 
 export default tableSlice.reducer

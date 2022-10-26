@@ -1,0 +1,29 @@
+@use '/src/styles/constants/colors';
+
+.btnsWrapper {
+  padding: 0 5px;
+  margin-bottom: 10px;
+  background: aliceblue;
+  border-radius: 20px;
+
+  button {
+    position: relative;
+    min-width: 80px;
+    min-height: 40px;
+    font-size: 20px;
+
+    span {
+      position: absolute;
+      top: 4px;
+      right: 14px;
+      display: block;
+      width: 15px;
+      height: 15px;
+      font-size: 14px;
+      line-height: 15px;
+      color: colors.$WHITE;
+      background: colors.$RED;
+      border-radius: 50%;
+    }
+  }
+}

@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
+import colorReducer from './reducers/colorReducer'
 import tableReducer from './reducers/tableReducer'
 
 export const store = configureStore({
-  reducer: { table: tableReducer },
+  reducer: { table: tableReducer, color: colorReducer },
   devTools: process.env.NODE_ENV !== 'production',
 })
 

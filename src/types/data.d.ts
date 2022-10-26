@@ -19,3 +19,31 @@ export interface IConseObj {
   vertical: INewObj[]
   [key: string]: INewObj[]
 }
+
+export interface ICounts {
+  removeOne: number
+  refreshBlocks: number
+  resetTable: number
+  [key: string]: number
+}
+
+export interface IInitialState {
+  data: IData[]
+  isPlaying: boolean
+  score: number
+  currentIdx: number
+  alignment: string
+  isAboutToUseItems: boolean
+  itemKeyword: string
+  itemCounts: ICounts
+}
+
+export interface IInitialcolors {
+  nextColors: [] | number[][]
+}
+
+export interface ITextObj {
+  refreshBlocks: string
+  resetTable: string
+  [key: string]: string
+}

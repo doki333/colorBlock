@@ -1,8 +1,8 @@
 import { memo, DragEvent, TouchEvent, useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux/es/exports'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from 'store/store'
-import { setIdx } from 'store/reducers/tableReducer'
+import { setAlignment, setIdx } from 'store/reducers/tableReducer'
 
 import styles from './colorChips.module.scss'
 import { cx } from 'styles'
@@ -10,7 +10,6 @@ import { cx } from 'styles'
 interface IColorChips {
   rgbs: number[]
   order: number
-  handleDragStart: (e: DragEvent<HTMLDivElement>) => void
   handleTable: (rowindex: string, cellindex: string, isVertical: string, currentLocation: number) => void
 }
 
@@ -18,11 +17,19 @@ let startX = 0
 let startY = 0
 let newAlign = 'vertical'
 
-const ColorChips = ({ rgbs, order, handleDragStart, handleTable }: IColorChips) => {
+const ColorChips = ({ rgbs, order, handleTable }: IColorChips) => {
   const dispatch = useDispatch()
   const colorData = useSelector((state: RootState) => state.table)
 
   const randomVertical = rgbs[order] > 2
+
+  const handleDragStart = (e: DragEvent<HTMLDivElement>) => {
+    const { alignment, index } = e.currentTarget.dataset
+    if (alignment) {
+      dispatch(setIdx(Number(index)))
+      dispatch(setAlignment(alignment))
+    }
+  }
 
   const handleTouchStart = (e: TouchEvent<HTMLDivElement>) => {
     const { alignment, index } = e.currentTarget.dataset

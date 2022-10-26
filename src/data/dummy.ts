@@ -1,4 +1,5 @@
 import { IData } from 'types/data'
+import getNumArr from 'utils/getRandomNumArr'
 
 const defaultData: IData = {
   0: null,
@@ -12,3 +13,4 @@ const defaultData: IData = {
   8: null,
 }
 export const newArr = Array.from(Array(9), () => defaultData)
+export const firstColors = [getNumArr(), getNumArr(), getNumArr()]
