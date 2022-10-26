@@ -15,6 +15,7 @@ import getFinal from 'utils/getFinal'
 
 import styles from './app.module.scss'
 import Portal from 'components/Portal/portal'
+import ItemTabs from 'components/ItemTabs/ItemTabs'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -94,6 +95,7 @@ const App = () => {
     <div className={styles.appWrapper}>
       <h1>Color Blocks</h1>
       <p className={styles.scoreNum}>점수 : {gameData.score}</p>
+      <ItemTabs />
       <DataTable handleDrop={handleDrop} />
       {nextColors.length !== 0 && (
         <div className={styles.blocksWrapper}>

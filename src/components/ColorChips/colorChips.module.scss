@@ -20,36 +20,36 @@
     display: block;
     width: 100%;
     height: 40px;
-    border-radius: 4px;
+    border-radius: 6px;
 
     &.color0 {
-      background: colors.$RED_BORDER;
-      box-shadow: inset 0 0 0 3px colors.$RED_BORDER, inset 0 0 0 8px colors.$RED;
+      background: colors.$RED;
+      box-shadow: inset 0 0 0 4px colors.$RED, inset 0 0 0 7px colors.$RED_BORDER;
     }
 
     &.color1 {
-      background: colors.$ORANGE_BORDER;
-      box-shadow: inset 0 0 0 3px colors.$ORANGE_BORDER, inset 0 0 0 8px colors.$ORANGE;
+      background: colors.$ORANGE;
+      box-shadow: inset 0 0 0 4px colors.$ORANGE, inset 0 0 0 7px colors.$ORANGE_BORDER;
     }
 
     &.color2 {
-      background: colors.$YELLOW_BORDER;
-      box-shadow: inset 0 0 0 3px colors.$YELLOW_BORDER, inset 0 0 0 8px colors.$YELLOW;
+      background: colors.$YELLOW;
+      box-shadow: inset 0 0 0 4px colors.$YELLOW, inset 0 0 0 7px colors.$YELLOW_BORDER;
     }
 
     &.color3 {
-      background: colors.$GREEN_BORDER;
-      box-shadow: inset 0 0 0 3px colors.$GREEN_BORDER, inset 0 0 0 8px colors.$GREEN;
+      background: colors.$GREEN;
+      box-shadow: inset 0 0 0 4px colors.$GREEN, inset 0 0 0 7px colors.$GREEN_BORDER;
     }
 
     &.color4 {
-      background: colors.$BLUE_BORDER;
-      box-shadow: inset 0 0 0 3px colors.$BLUE_BORDER, inset 0 0 0 8px colors.$BLUE;
+      background: colors.$BLUE;
+      box-shadow: inset 0 0 0 4px colors.$BLUE, inset 0 0 0 7px colors.$BLUE_BORDER;
     }
 
     &.color5 {
-      background: colors.$TEAL_BORDER;
-      box-shadow: inset 0 0 0 3px colors.$TEAL_BORDER, inset 0 0 0 8px colors.$TEAL;
+      background: colors.$TEAL;
+      box-shadow: inset 0 0 0 4px colors.$TEAL, inset 0 0 0 7px colors.$TEAL_BORDER;
     }
   }
 }
@@ -72,36 +72,42 @@
       display: block;
       width: 100%;
       height: 60px;
-      border-radius: 6px;
+      border-radius: 8px;
 
       &.color0 {
-        background: colors.$RED_BORDER;
-        box-shadow: inset 0 0 0 3px colors.$RED_BORDER, inset 0 0 0 8px colors.$RED;
+        background: colors.$RED;
+        border: 1px solid colors.$GRAYD;
+        box-shadow: inset 0 0 0 5px colors.$RED, inset 0 0 0 8px colors.$RED_BORDER;
       }
 
       &.color1 {
-        background: colors.$ORANGE_BORDER;
-        box-shadow: inset 0 0 0 3px colors.$ORANGE_BORDER, inset 0 0 0 8px colors.$ORANGE;
+        background: colors.$ORANGE;
+        border: 1px solid colors.$GRAYD;
+        box-shadow: inset 0 0 0 5px colors.$ORANGE, inset 0 0 0 8px colors.$ORANGE_BORDER;
       }
 
       &.color2 {
-        background: colors.$YELLOW_BORDER;
-        box-shadow: inset 0 0 0 3px colors.$YELLOW_BORDER, inset 0 0 0 8px colors.$YELLOW;
+        background: colors.$YELLOW;
+        border: 1px solid colors.$GRAYD;
+        box-shadow: inset 0 0 0 5px colors.$YELLOW, inset 0 0 0 8px colors.$YELLOW_BORDER;
       }
 
       &.color3 {
-        background: colors.$GREEN_BORDER;
-        box-shadow: inset 0 0 0 3px colors.$GREEN_BORDER, inset 0 0 0 8px colors.$GREEN;
+        background: colors.$GREEN;
+        border: 1px solid colors.$GRAYD;
+        box-shadow: inset 0 0 0 5px colors.$GREEN, inset 0 0 0 8px colors.$GREEN_BORDER;
       }
 
       &.color4 {
-        background: colors.$BLUE_BORDER;
-        box-shadow: inset 0 0 0 3px colors.$BLUE_BORDER, inset 0 0 0 8px colors.$BLUE;
+        background: colors.$BLUE;
+        border: 1px solid colors.$GRAYD;
+        box-shadow: inset 0 0 0 5px colors.$BLUE, inset 0 0 0 8px colors.$BLUE_BORDER;
       }
 
       &.color5 {
-        background: colors.$TEAL_BORDER;
-        box-shadow: inset 0 0 0 3px colors.$TEAL_BORDER, inset 0 0 0 8px colors.$TEAL;
+        background: colors.$TEAL;
+        border: 1px solid colors.$GRAYD;
+        box-shadow: inset 0 0 0 5px colors.$TEAL, inset 0 0 0 8px colors.$TEAL_BORDER;
       }
     }
   }
