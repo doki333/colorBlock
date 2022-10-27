@@ -17,7 +17,7 @@ const ItemTabs = ({ counts }: IItemTabs) => {
     const { keyword } = e.currentTarget.dataset
     if (keyword) {
       if (counts[keyword] <= 0) return
-      dispatch(setUseItems())
+      dispatch(setUseItems(true))
       dispatch(setItemKeyword(keyword))
     }
   }

@@ -50,6 +50,7 @@ const ColorChips = ({ rgbs, order, handleTable }: IColorChips) => {
 
   const handleEnd = useCallback(
     (e: TouchEvent<HTMLDivElement>) => {
+      e.preventDefault()
       const { clientX, clientY } = e.changedTouches[0]
       const elements = document.elementsFromPoint(clientX, clientY)
       const elementNames = elements.map((ele) => ele.localName)

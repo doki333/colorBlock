@@ -40,8 +40,8 @@ export const tableSlice = createSlice({
     setAlignment: (state, action: PayloadAction<string>) => {
       state.alignment = action.payload
     },
-    setUseItems: (state) => {
-      state.isAboutToUseItems = !state.isAboutToUseItems
+    setUseItems: (state, action: PayloadAction<boolean>) => {
+      state.isAboutToUseItems = action.payload
     },
     setItemKeyword: (state, action: PayloadAction<string>) => {
       state.itemKeyword = action.payload

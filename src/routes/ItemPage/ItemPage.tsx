@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCountMinus, setData, setUseItems } from 'store/reducers/tableReducer'
 import SweetAlert2 from 'react-sweetalert2'
@@ -20,7 +19,6 @@ const ItemPage = ({ isAvailable }: IItemPage) => {
 
   const handleConfirm = (result: ISwalResult) => {
     if (result.isConfirmed) {
-      dispatch(setUseItems())
       dispatch(setCountMinus(keywordData))
       if (keywordData === 'refreshBlocks') {
         dispatch(resetColors())
@@ -28,6 +26,10 @@ const ItemPage = ({ isAvailable }: IItemPage) => {
       }
       dispatch(setData(newArr))
     }
+  }
+
+  const handleResolve = () => {
+    dispatch(setUseItems(false))
   }
 
   return (
@@ -38,6 +40,7 @@ const ItemPage = ({ isAvailable }: IItemPage) => {
       showCloseButton={keywordData === 'removeOne'}
       showConfirmButton={keywordData !== 'removeOne'}
       onConfirm={handleConfirm}
+      onResolve={handleResolve}
     >
       <div>{keywordData === 'removeOne' && <DataTable isClickable />}</div>
     </SweetAlert2>
