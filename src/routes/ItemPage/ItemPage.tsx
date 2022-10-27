@@ -1,24 +1,46 @@
-import { useDispatch } from 'react-redux'
-import { setUseItems } from 'store/reducers/tableReducer'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCountMinus, setData, setUseItems } from 'store/reducers/tableReducer'
+import SweetAlert2 from 'react-sweetalert2'
 
 import DataTable from 'components/DataTable/DataTable'
-import styles from './itemPage.module.scss'
+import { RootState } from 'store/store'
+import { newArr, textObjs } from 'data/dummy'
 
-const ItemPage = () => {
+import { ISwalResult } from 'types/data'
+import { resetColors } from 'store/reducers/colorReducer'
+
+interface IItemPage {
+  isAvailable: boolean
+}
+
+const ItemPage = ({ isAvailable }: IItemPage) => {
   const dispatch = useDispatch()
+  const keywordData = useSelector((state: RootState) => state.table.itemKeyword)
 
-  const handleClickCancel = () => {
-    dispatch(setUseItems())
+  const handleConfirm = (result: ISwalResult) => {
+    if (result.isConfirmed) {
+      dispatch(setUseItems())
+      dispatch(setCountMinus(keywordData))
+      if (keywordData === 'refreshBlocks') {
+        dispatch(resetColors())
+        return
+      }
+      dispatch(setData(newArr))
+    }
   }
 
   return (
-    <div className={styles.itemWrapper}>
-      <p>지우고 싶은 블럭 하나를 클릭하세요</p>
-      <DataTable isClickable />
-      <button type='button' onClick={handleClickCancel}>
-        Close
-      </button>
-    </div>
+    <SweetAlert2
+      show={isAvailable}
+      title={textObjs[keywordData]}
+      showCancelButton={keywordData !== 'removeOne'}
+      showCloseButton={keywordData === 'removeOne'}
+      showConfirmButton={keywordData !== 'removeOne'}
+      onConfirm={handleConfirm}
+    >
+      <div>{keywordData === 'removeOne' && <DataTable isClickable />}</div>
+    </SweetAlert2>
   )
 }
 

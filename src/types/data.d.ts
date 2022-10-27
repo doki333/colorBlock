@@ -43,7 +43,15 @@ export interface IInitialcolors {
 }
 
 export interface ITextObj {
+  removeOne: string
   refreshBlocks: string
   resetTable: string
   [key: string]: string
+}
+
+export interface ISwalResult {
+  isConfirmed: boolean
+  isDenied: boolean
+  isDismissed: boolean
+  value: boolean
 }

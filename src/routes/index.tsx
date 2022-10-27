@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from 'store/store'
 import { setData, setPlay, setScore } from 'store/reducers/tableReducer'
+import { setNewColors } from 'store/reducers/colorReducer'
 
 import EndPage from 'routes/EndPage/EndPage'
 import ItemPage from 'routes/ItemPage/ItemPage'
@@ -18,7 +19,6 @@ import { getScore } from 'utils/controlScore'
 import getFinal from 'utils/getFinal'
 
 import styles from './app.module.scss'
-import { setNewColors } from 'store/reducers/colorReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -63,10 +63,6 @@ const App = () => {
       dispatch(setData(finalArr))
       dispatch(setPlay(isItEnded))
       dispatch(setScore(blockScore))
-
-      // if(blockScore !== 0 && blockScore % 50 === 0) {
-      //   dispatch(setI)
-      // }
     },
     [gameData.data, colorData, getNextColor, dispatch]
   )
@@ -88,7 +84,7 @@ const App = () => {
       <h1>Color Blocks</h1>
       <p className={styles.scoreNum}>점수 : {gameData.score}</p>
       <ItemTabs counts={gameData.itemCounts} />
-      <DataTable handleDrop={handleDrop} isClickable={gameData.isAboutToUseItems} />
+      <DataTable handleDrop={handleDrop} isClickable={false} />
       {colorData.length !== 0 && (
         <div className={styles.blocksWrapper}>
           {colorData.map((b, index) => {
@@ -97,14 +93,10 @@ const App = () => {
           })}
         </div>
       )}
+      <ItemPage isAvailable={gameData.isAboutToUseItems} />
       {!gameData.isPlaying && (
         <Portal>
           <EndPage />
-        </Portal>
-      )}
-      {gameData.isAboutToUseItems && (
-        <Portal>
-          <ItemPage />
         </Portal>
       )}
     </div>

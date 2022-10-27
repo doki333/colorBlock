@@ -42,8 +42,8 @@ const DataTable = ({ handleDrop, isClickable }: IDataTable) => {
       const copiedRow = { ...copiedData[Number(rowindex)] }
       copiedRow[Number(cellindex)] = null
       copiedData[Number(rowindex)] = copiedRow
-      dispatch(setData(copiedData))
       dispatch(setUseItems())
+      dispatch(setData(copiedData))
       dispatch(setCountMinus('removeOne'))
     }
   }
