@@ -20,7 +20,9 @@ export const getConsequence = (newArr3: IData[]) => {
       const isScored = scoreRows.every((val) => val !== null && val === scoreRows[0])
       if (!isScored) return
       emptyObj1.standardIndex = i
-      emptyObj1.dataIndexs.push(e)
+      emptyObj1.dataIndexs.push(...e)
+      const flattedArr = Array.from(new Set(emptyObj1.dataIndexs.flat()))
+      emptyObj1.dataIndexs = flattedArr
     })
     if (emptyObj1.dataIndexs.length !== 0) {
       consequnceObj.horizon.push(emptyObj1)
@@ -33,10 +35,11 @@ export const getConsequence = (newArr3: IData[]) => {
     lines3.forEach((e) => {
       const scoreRows = e.map((num) => newArr3[num][i])
       const isScored = scoreRows.every((val) => val !== null && val === scoreRows[0])
-      if (isScored) {
-        emptyObj2.standardIndex = i
-        emptyObj2.dataIndexs.push(e)
-      }
+      if (!isScored) return
+      emptyObj2.standardIndex = i
+      emptyObj2.dataIndexs.push(...e)
+      const flattedArr = Array.from(new Set(emptyObj2.dataIndexs.flat()))
+      emptyObj2.dataIndexs = flattedArr
     })
     if (emptyObj2.dataIndexs.length !== 0) {
       consequnceObj.vertical.push(emptyObj2)
@@ -56,8 +59,7 @@ export const getScore = (list: IData[]): number => {
     if (!lists[word][0]) return
     for (let i = 0; i < lists[word].length; i += 1) {
       const len = lists[word][i].dataIndexs.length
-      const newScore = len * 3 - 2 * (len - 1)
-      first += newScore
+      first += len
     }
   })
   return first

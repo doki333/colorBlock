@@ -16,10 +16,9 @@
 
 
 ### 2. 라이브러리   
-- @tanstack/react-table : 게임 판으로 사용한 테이블 관련 라이브러리 입니다.   
 - classnames: 조건부 클래스네임 지정 관련 라이브러리 입니다.  
 - @redux-toolkit, react-redux : 전역 상태 관리 라이브러리 입니다.     
-- react-sweetalert2, sweetalert2 : 팝업창 라이브러리 입니다.   
+- react-sweetalert2 : 팝업창 라이브러리 입니다.   
 
 ### 3. 폴더 구조
 

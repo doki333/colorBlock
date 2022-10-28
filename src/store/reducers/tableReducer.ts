@@ -7,15 +7,6 @@ const initialState: IInitialState = {
   data: newArr,
   isPlaying: true,
   score: 0,
-  currentIdx: 0,
-  alignment: 'horizon',
-  isAboutToUseItems: false,
-  itemKeyword: 'removeOne',
-  itemCounts: {
-    removeOne: 2,
-    refreshBlocks: 1,
-    resetTable: 1,
-  },
 }
 
 export const tableSlice = createSlice({
@@ -34,34 +25,9 @@ export const tableSlice = createSlice({
     setScore: (state, action: PayloadAction<number>) => {
       state.score += action.payload
     },
-    setIdx: (state, action: PayloadAction<number>) => {
-      state.currentIdx = action.payload
-    },
-    setAlignment: (state, action: PayloadAction<string>) => {
-      state.alignment = action.payload
-    },
-    setUseItems: (state, action: PayloadAction<boolean>) => {
-      state.isAboutToUseItems = action.payload
-    },
-    setItemKeyword: (state, action: PayloadAction<string>) => {
-      state.itemKeyword = action.payload
-    },
-    setCountMinus: (state, action: PayloadAction<string>) => {
-      state.itemCounts[action.payload] -= 1
-    },
   },
 })
 
-export const {
-  setData,
-  resetData,
-  setPlay,
-  setScore,
-  setIdx,
-  setAlignment,
-  setUseItems,
-  setItemKeyword,
-  setCountMinus,
-} = tableSlice.actions
+export const { setData, resetData, setPlay, setScore } = tableSlice.actions
 
 export default tableSlice.reducer

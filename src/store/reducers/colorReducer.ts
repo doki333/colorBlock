@@ -6,6 +6,8 @@ import getNumArr from 'utils/getRandomNumArr'
 
 const initialState: IInitialcolors = {
   nextColors: firstColors,
+  currentIdx: 0,
+  alignment: 'horizon',
 }
 
 export const colorSlice = createSlice({
@@ -19,9 +21,15 @@ export const colorSlice = createSlice({
       const newColors = [getNumArr(), getNumArr(), getNumArr()]
       state.nextColors = newColors
     },
+    setIdx: (state, action: PayloadAction<number>) => {
+      state.currentIdx = action.payload
+    },
+    setAlignment: (state, action: PayloadAction<string>) => {
+      state.alignment = action.payload
+    },
   },
 })
 
-export const { setNewColors, resetColors } = colorSlice.actions
+export const { setNewColors, resetColors, setIdx, setAlignment } = colorSlice.actions
 
 export default colorSlice.reducer

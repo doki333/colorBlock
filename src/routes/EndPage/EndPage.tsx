@@ -5,7 +5,7 @@ import styles from './endPage.module.scss'
 
 const EndPage = () => {
   const dispatch = useDispatch()
-  const gameData = useSelector((state: RootState) => state.table)
+  const scoreData = useSelector((state: RootState) => state.table.score)
 
   const handleClickBtn = () => {
     dispatch(resetData())
@@ -14,7 +14,7 @@ const EndPage = () => {
   return (
     <div className={styles.endPageWrapper}>
       <p>Good Job!</p>
-      <p>Your Score is {gameData.score}</p>
+      <p>Your Score is {scoreData}</p>
       <button type='button' className={styles.tryBtn} onClick={handleClickBtn}>
         Try Again
       </button>

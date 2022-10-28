@@ -1,4 +1,4 @@
-import { DragEvent, useCallback } from 'react'
+import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from 'store/store'
@@ -12,10 +12,11 @@ import DataTable from 'components/DataTable/DataTable'
 import ColorChips from 'components/ColorChips/ColorChips'
 import Portal from 'components/Portal/portal'
 import ItemTabs from 'components/ItemTabs/ItemTabs'
+import ScoreBoard from 'components/ScoreBoard/ScoreBoard'
 
 import getNumArr from 'utils/getRandomNumArr'
-import { colorTable, getRidOfColor } from 'utils/controlColor'
 import { getScore } from 'utils/controlScore'
+import { colorTable, getRidOfColor } from 'utils/controlColor'
 import getFinal from 'utils/getFinal'
 
 import styles from './app.module.scss'
@@ -24,13 +25,14 @@ const App = () => {
   const dispatch = useDispatch()
 
   const gameData = useSelector((state: RootState) => state.table)
-  const colorData = useSelector((state: RootState) => state.color.nextColors)
+  const colorData = useSelector((state: RootState) => state.color)
+  const itemData = useSelector((state: RootState) => state.item)
 
   const getNextColor = useCallback(
     (num: number) => {
       // 다음 등록
       const newNext = getNumArr()
-      const newColors = [...colorData]
+      const newColors = [...colorData.nextColors]
 
       newColors.splice(num, 1, newNext)
       dispatch(setNewColors(newColors))
@@ -39,61 +41,52 @@ const App = () => {
     [colorData, dispatch]
   )
 
-  const handleTable = useCallback(
-    (rowindex: string, cellindex: string, isVertical: string, currentLocation: number) => {
-      const newRowIndex = Number(rowindex)
-      const newCellIndex = Number(cellindex)
+  const handleTable = (rowindex: string, cellindex: string) => {
+    const isVertical = colorData.alignment
+    const currentLocation = colorData.currentIdx
+    const newRowIndex = Number(rowindex)
+    const newCellIndex = Number(cellindex)
 
-      const isColumnNotAvailable = newRowIndex - 1 < 0 || newRowIndex + 1 > 8
-      const isHorizonNotAvailable = newCellIndex - 1 < 0 || newCellIndex + 1 > 8
+    const isColumnNotAvailable = newRowIndex - 1 < 0 || newRowIndex + 1 > 8
+    const isHorizonNotAvailable = newCellIndex - 1 < 0 || newCellIndex + 1 > 8
 
-      if (isVertical === 'vertical' && isColumnNotAvailable) return
-      if (isVertical === 'horizon' && isHorizonNotAvailable) return
+    if (isVertical === 'vertical' && isColumnNotAvailable) return
+    if (isVertical === 'horizon' && isHorizonNotAvailable) return
 
-      const newArr3 = [...gameData.data]
-      const transferredValue = colorTable(newArr3, isVertical, colorData[currentLocation], newRowIndex, newCellIndex)
+    const newArr3 = [...gameData.data]
+    const transferredValue = colorTable(
+      newArr3,
+      isVertical,
+      colorData.nextColors[currentLocation],
+      newRowIndex,
+      newCellIndex
+    )
 
-      if (transferredValue === null) return
+    if (!transferredValue) return
 
-      const blockScore = getScore(transferredValue) // 점수
-      const finalArr = getRidOfColor(transferredValue) // 색 제거
-      const afterColors = getNextColor(currentLocation) // 다음 색
-      const isItEnded = getFinal(finalArr, afterColors) // 게임오버인지 아닌지
+    const blockScore = getScore(transferredValue) // 점수
+    const finalArr = getRidOfColor(transferredValue) // 색 제거
+    const afterColors = getNextColor(currentLocation) // 다음 색
+    const isItEnded = getFinal(finalArr, afterColors) // 게임오버인지 아닌지
 
-      dispatch(setData(finalArr))
-      dispatch(setPlay(isItEnded))
-      dispatch(setScore(blockScore))
-    },
-    [gameData.data, colorData, getNextColor, dispatch]
-  )
-
-  const handleDrop = useCallback(
-    (e: DragEvent<HTMLTableCellElement>) => {
-      const { rowindex, cellindex } = e.currentTarget.dataset
-      const isVertical = gameData.alignment
-
-      if (rowindex && cellindex) {
-        handleTable(rowindex, cellindex, isVertical, gameData.currentIdx)
-      }
-    },
-    [gameData.alignment, gameData.currentIdx, handleTable]
-  )
+    dispatch(setData(finalArr))
+    dispatch(setPlay(isItEnded))
+    dispatch(setScore(blockScore))
+  }
 
   return (
     <div className={styles.appWrapper}>
       <h1>Color Blocks</h1>
-      <p className={styles.scoreNum}>점수 : {gameData.score}</p>
-      <ItemTabs counts={gameData.itemCounts} />
-      <DataTable handleDrop={handleDrop} isClickable={false} />
-      {colorData.length !== 0 && (
-        <div className={styles.blocksWrapper}>
-          {colorData.map((b, index) => {
-            const colorKey = `colorB-${index}`
-            return <ColorChips key={colorKey} rgbs={b} order={index} handleTable={handleTable} />
-          })}
-        </div>
-      )}
-      <ItemPage isAvailable={gameData.isAboutToUseItems} />
+      <ScoreBoard total={gameData.score} />
+      <ItemTabs counts={itemData.itemCounts} />
+      <DataTable handleTable={handleTable} isClickable={false} />
+      <div className={styles.blocksWrapper}>
+        {colorData.nextColors.map((b, index) => {
+          const colorKey = `colorB-${index}`
+          return <ColorChips key={colorKey} rgbs={b} order={index} handleTable={handleTable} />
+        })}
+      </div>
+      <ItemPage isAvailable={itemData.isAboutToUseItems} />
       {!gameData.isPlaying && (
         <Portal>
           <EndPage />

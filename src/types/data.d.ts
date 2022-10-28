@@ -11,7 +11,7 @@ export interface IData {
 
 export interface INewObj {
   standardIndex: number
-  dataIndexs: number[][]
+  dataIndexs: number[]
 }
 
 export interface IConseObj {
@@ -31,15 +31,12 @@ export interface IInitialState {
   data: IData[]
   isPlaying: boolean
   score: number
-  currentIdx: number
-  alignment: string
-  isAboutToUseItems: boolean
-  itemKeyword: string
-  itemCounts: ICounts
 }
 
 export interface IInitialcolors {
   nextColors: [] | number[][]
+  currentIdx: number
+  alignment: string
 }
 
 export interface ITextObj {
@@ -54,4 +51,10 @@ export interface ISwalResult {
   isDenied: boolean
   isDismissed: boolean
   value: boolean
+}
+
+export interface IItemState {
+  isAboutToUseItems: boolean
+  itemKeyword: string
+  itemCounts: ICounts
 }

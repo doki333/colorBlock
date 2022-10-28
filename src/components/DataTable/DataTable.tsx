@@ -1,39 +1,36 @@
-import { memo, DragEvent, MouseEvent } from 'react'
-import { createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { memo, DragEvent, MouseEvent, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { RootState } from 'store/store'
-import { IData } from 'types/data'
+import { setData } from 'store/reducers/tableReducer'
+import { setCountMinus, setUseItems } from 'store/reducers/itemReducer'
 
 import styles from './dataTable.module.scss'
 import { cx } from 'styles'
-import { setCountMinus, setData, setUseItems } from 'store/reducers/tableReducer'
 
 interface IDataTable {
-  handleDrop?: (e: DragEvent<HTMLTableCellElement>) => void
+  handleTable?: (rowindex: string, cellindex: string) => void
   isClickable: boolean
 }
 
-const columnHelper = createColumnHelper<IData>()
-
-const DataTable = ({ handleDrop, isClickable }: IDataTable) => {
+const DataTable = ({ handleTable, isClickable }: IDataTable) => {
   const dispatch = useDispatch()
   const tableState = useSelector((state: RootState) => state.table)
-  const columns = tableState.data.map((arr, newIdx) => {
-    return columnHelper.accessor((row) => `${row[newIdx]}`, { id: String(newIdx) })
-  })
-
-  const table = useReactTable({
-    data: tableState.data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  })
-
-  const getRow = table.getRowModel().rows
 
   const handleDragOver = (e: DragEvent<HTMLTableElement>) => {
     e.preventDefault()
   }
+
+  const handleDrop = useCallback(
+    (e: DragEvent<HTMLTableCellElement>) => {
+      const { rowindex, cellindex } = e.currentTarget.dataset
+
+      if (rowindex && cellindex && handleTable) {
+        handleTable(rowindex, cellindex)
+      }
+    },
+    [handleTable]
+  )
 
   const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
     const { rowindex, cellindex } = e.currentTarget.dataset
@@ -52,28 +49,30 @@ const DataTable = ({ handleDrop, isClickable }: IDataTable) => {
     <div className={styles.tableWrapper}>
       <table onDragOver={handleDragOver}>
         <tbody>
-          {getRow.map((row) => {
-            const visibleRows = row.getVisibleCells()
+          {tableState.data.map((row, rIndex) => {
+            const rowKey = `row-${rIndex}`
             return (
-              <tr key={`row-${row.id}`}>
-                {visibleRows.map((cell, idx) => {
-                  const colorClass = `color${cell.getValue()}`
-                  const isNotEmpty = cell.getValue() !== 'null'
+              <tr key={rowKey}>
+                {Object.values(row).map((cell, cIndex) => {
+                  const cellKey = `cell-${cIndex}`
+                  const isNotEmpty = cell !== null
+                  const colorClass = `color${cell}`
+
                   return (
                     <td
-                      key={`cell-${cell.id}`}
+                      key={cellKey}
                       className={cx(styles.tableCell, { [styles[colorClass]]: isNotEmpty })}
                       onDrop={handleDrop}
-                      data-rowindex={row.index}
-                      data-cellindex={idx}
+                      data-rowindex={rIndex}
+                      data-cellindex={cIndex}
                     >
                       {isClickable && isNotEmpty && (
                         <button
                           type='button'
                           onClick={handleClick}
                           className={cx(styles.tableBtn, { [styles.isNotExcluded]: isNotEmpty })}
-                          data-rowindex={row.index}
-                          data-cellindex={idx}
+                          data-rowindex={rIndex}
+                          data-cellindex={cIndex}
                         >
                           X
                         </button>

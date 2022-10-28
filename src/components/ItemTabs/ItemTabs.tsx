@@ -1,6 +1,6 @@
-import { MouseEvent } from 'react'
+import { memo, MouseEvent } from 'react'
 import { useDispatch } from 'react-redux'
-import { setItemKeyword, setUseItems } from 'store/reducers/tableReducer'
+import { setItemKeyword, setUseItems } from 'store/reducers/itemReducer'
 import { ICounts } from 'types/data'
 
 import styles from './itemTabs.module.scss'
@@ -35,4 +35,4 @@ const ItemTabs = ({ counts }: IItemTabs) => {
   )
 }
 
-export default ItemTabs
+export default memo(ItemTabs)

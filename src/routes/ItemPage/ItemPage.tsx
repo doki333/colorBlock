@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { setCountMinus, setData, setUseItems } from 'store/reducers/tableReducer'
 import SweetAlert2 from 'react-sweetalert2'
 
-import DataTable from 'components/DataTable/DataTable'
 import { RootState } from 'store/store'
-import { newArr, textObjs } from 'data/dummy'
-
-import { ISwalResult } from 'types/data'
 import { resetColors } from 'store/reducers/colorReducer'
+import { setCountMinus, setUseItems } from 'store/reducers/itemReducer'
+import { setData } from 'store/reducers/tableReducer'
+
+import DataTable from 'components/DataTable/DataTable'
+import { newArr, textObjs } from 'data/dummy'
+import { ISwalResult } from 'types/data'
 
 interface IItemPage {
   isAvailable: boolean
@@ -15,7 +16,7 @@ interface IItemPage {
 
 const ItemPage = ({ isAvailable }: IItemPage) => {
   const dispatch = useDispatch()
-  const keywordData = useSelector((state: RootState) => state.table.itemKeyword)
+  const keywordData = useSelector((state: RootState) => state.item.itemKeyword)
 
   const handleConfirm = (result: ISwalResult) => {
     if (result.isConfirmed) {
