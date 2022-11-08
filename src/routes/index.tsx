@@ -15,11 +15,11 @@ import ItemTabs from 'components/ItemTabs/ItemTabs'
 import ScoreBoard from 'components/ScoreBoard/ScoreBoard'
 
 import getNumArr from 'utils/getRandomNumArr'
-import { getScore } from 'utils/controlScore'
-import { colorTable, getRidOfColor } from 'utils/controlColor'
+import { getColoredTable, getRidOfColor } from 'utils/controlColor'
 import getFinal from 'utils/getFinal'
 
 import styles from './app.module.scss'
+import { calcScore } from 'utils/calcScore'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -54,7 +54,7 @@ const App = () => {
     if (isVertical === 'horizon' && isHorizonNotAvailable) return
 
     const newArr3 = [...gameData.data]
-    const transferredValue = colorTable(
+    const transferredValue = getColoredTable(
       newArr3,
       isVertical,
       colorData.nextColors[currentLocation],
@@ -64,7 +64,7 @@ const App = () => {
 
     if (!transferredValue) return
 
-    const blockScore = getScore(transferredValue) // 점수
+    const blockScore = calcScore(transferredValue) // 점수
     const finalArr = getRidOfColor(transferredValue) // 색 제거
     const afterColors = getNextColor(currentLocation) // 다음 색
     const isItEnded = getFinal(finalArr, afterColors) // 게임오버인지 아닌지

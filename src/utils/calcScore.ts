@@ -50,7 +50,7 @@ export const getConsequence = (newArr3: IData[]) => {
   return consequnceObj
 }
 
-export const getScore = (list: IData[]): number => {
+export const calcScore = (list: IData[]): number => {
   let first = 0
   const lists = getConsequence(list)
 

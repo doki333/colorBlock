@@ -40,7 +40,6 @@ const ColorChips = ({ rgbs, order, handleTable }: IColorChips) => {
     }
   }
   const handleMove = (e: TouchEvent<HTMLDivElement>) => {
-    if (e.cancelable) e.preventDefault()
     const { clientX, clientY } = e.touches[0]
     e.currentTarget.style.left = `${clientX - startX}px`
     e.currentTarget.style.top = `${clientY - startY}px`

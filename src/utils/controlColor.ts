@@ -1,7 +1,7 @@
 import { IData } from 'types/data'
-import { getConsequence } from './controlScore'
+import { getConsequence } from './calcScore'
 
-export const colorTable = (
+export const getColoredTable = (
   data: IData[],
   isVertical: string,
   current: number[],

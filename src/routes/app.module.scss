@@ -10,6 +10,9 @@
   margin: 5px;
   overflow-x: hidden;
   overflow-y: scroll;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -ms-touch-action: pinch-zoom;
+  touch-action: pinch-zoom;
 
   h1 {
     margin: 10px 0;
