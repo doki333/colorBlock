@@ -79,7 +79,7 @@ const App = () => {
       <h1>Color Blocks</h1>
       <ScoreBoard total={gameData.score} />
       <ItemTabs counts={itemData.itemCounts} />
-      <DataTable handleTable={handleTable} isClickable={false} />
+      <DataTable isClickable={false} />
       <div className={styles.blocksWrapper}>
         {colorData.nextColors.map((b, index) => {
           const colorKey = `colorB-${index}`

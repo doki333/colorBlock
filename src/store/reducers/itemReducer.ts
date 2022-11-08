@@ -25,9 +25,10 @@ export const itemSlice = createSlice({
     setCountMinus: (state, action: PayloadAction<string>) => {
       state.itemCounts[action.payload] -= 1
     },
+    resetItem: () => initialState,
   },
 })
 
-export const { setUseItems, setItemKeyword, setCountMinus } = itemSlice.actions
+export const { setUseItems, setItemKeyword, setCountMinus, resetItem } = itemSlice.actions
 
 export default itemSlice.reducer

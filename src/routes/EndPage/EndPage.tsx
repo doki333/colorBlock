@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { resetData } from 'store/reducers/tableReducer'
+
 import { RootState } from 'store/store'
+import { resetItem } from 'store/reducers/itemReducer'
+import { resetData } from 'store/reducers/tableReducer'
 import styles from './endPage.module.scss'
 
 const EndPage = () => {
@@ -9,6 +11,7 @@ const EndPage = () => {
 
   const handleClickBtn = () => {
     dispatch(resetData())
+    dispatch(resetItem())
   }
 
   return (

@@ -16,9 +16,7 @@ export const tableSlice = createSlice({
     setData: (state, action: PayloadAction<IData[]>) => {
       state.data = action.payload
     },
-    resetData: () => {
-      return initialState
-    },
+    resetData: () => initialState,
     setPlay: (state, action: PayloadAction<boolean>) => {
       state.isPlaying = action.payload
     },
